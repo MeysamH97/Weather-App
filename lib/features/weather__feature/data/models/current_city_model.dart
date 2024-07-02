@@ -16,7 +16,7 @@ import 'package:weather_app/features/weather__feature/domain/entities/current_ci
 /// cod : 200
 
 class CurrentCityModel extends CurrentCityEntity {
-  CurrentCityModel({
+   CurrentCityModel({
     Coord? coord,
     List<Weather>? weather,
     String? base,
@@ -199,9 +199,9 @@ class Wind {
   });
 
   Wind.fromJson(dynamic json) {
-    speed = json['speed'];
+    speed = double.parse(json['speed']);
     deg = json['deg'];
-    gust = json['gust'];
+    gust = double.parse(json['gust']);
   }
 
   double? speed;

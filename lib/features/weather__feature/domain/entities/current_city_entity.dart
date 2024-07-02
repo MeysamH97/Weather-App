@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:weather_app/features/weather__feature/data/models/current_city_model.dart';
 
 class CurrentCityEntity extends Equatable {
-
   final Coord? coord;
   final List<Weather>? weather;
   final String? base;
@@ -18,9 +17,8 @@ class CurrentCityEntity extends Equatable {
   final String? name;
   final num? cod;
 
-
-  CurrentCityEntity({
-      this.coord,
+  CurrentCityEntity(
+      {this.coord,
       this.weather,
       this.base,
       this.main,
@@ -37,6 +35,20 @@ class CurrentCityEntity extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [];
-
+  List<Object?> get props => [
+        coord,
+        weather,
+        base,
+        main,
+        visibility,
+        wind,
+        rain,
+        clouds,
+        dt,
+        sys,
+        timezone,
+        id,
+        name,
+        cod
+      ];
 }
