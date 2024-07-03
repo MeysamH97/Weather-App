@@ -14,6 +14,7 @@ class WeatherRepositoryImpl extends WeatherRepository{
   @override
   Future<DataState<CurrentCityEntity>> fetchCurrentCityData(String cityName) async {
     try{
+
       Response response = await  apiProvider.getCurrentWeather(cityName);
 
       if(response.statusCode == 200){
@@ -26,6 +27,7 @@ class WeatherRepositoryImpl extends WeatherRepository{
       }
 
     }catch(e){
+      print(e);
       return DataFailed('Please check your connection ...');
     }
   }

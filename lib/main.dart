@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/core/widgets/main_wrapper.dart';
-import 'package:weather_app/features/weather__feature/presentaion/bloc/home_bloc.dart';
+import 'package:weather_app/core/presentation/ui/main_wrapper.dart';
+import 'package:weather_app/features/weather__feature/presentation/bloc/home_bloc.dart';
 import 'package:weather_app/locator.dart';
 
 void main() async {
@@ -18,7 +18,7 @@ void main() async {
             create: (_) => locator<HomeBloc>(),
           ),
         ],
-        child: const MainWrapper(),
+        child:  MainWrapper(),
       ),
     ),
   );

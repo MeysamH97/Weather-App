@@ -7,7 +7,7 @@ class HomeState {
   const HomeState({required this.currentWeatherStatus});
 
   HomeState copyWith ({CurrentWeatherStatus? newCurrentWeatherStatus}){
-    return HomeState (currentWeatherStatus: newCurrentWeatherStatus ?? this.currentWeatherStatus);
+    return HomeState (currentWeatherStatus: newCurrentWeatherStatus ?? currentWeatherStatus);
   }
 
 }

@@ -8,12 +8,12 @@ class ApiProvider {
   /// current weather api call
   Future<dynamic> getCurrentWeather(cityName) async{
     var response = await dio.get(
-      '${Constants.baseUrl}/data/2.5/weather',
-      queryParameters: {
-        'q' : cityName,
-        'appid' : apiKey,
-        'units' : 'metric',
-      },
+        '${Constants.baseUrl}/data/2.5/weather',
+        queryParameters: {
+          'q' : cityName,
+          'appid' : apiKey,
+          'units' : 'metric'
+        }
     );
     return response;
   }

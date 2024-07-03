@@ -3,7 +3,7 @@ import 'package:weather_app/features/weather__feature/data/data_source/remote/ap
 import 'package:weather_app/features/weather__feature/data/repository/weather_repository_impl.dart';
 import 'package:weather_app/features/weather__feature/domain/repository/weather_repository.dart';
 import 'package:weather_app/features/weather__feature/domain/use_cases/get_current_weather_usecase.dart';
-import 'package:weather_app/features/weather__feature/presentaion/bloc/home_bloc.dart';
+import 'package:weather_app/features/weather__feature/presentation/bloc/home_bloc.dart';
 
 GetIt locator = GetIt.instance;
 setup(){

@@ -73,38 +73,6 @@ class CurrentCityModel extends CurrentCityEntity {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (coord != null) {
-      map['coord'] = coord?.toJson();
-    }
-    if (weather != null) {
-      map['weather'] = weather?.map((v) => v.toJson()).toList();
-    }
-    map['base'] = base;
-    if (main != null) {
-      map['main'] = main?.toJson();
-    }
-    map['visibility'] = visibility;
-    if (wind != null) {
-      map['wind'] = wind?.toJson();
-    }
-    if (rain != null) {
-      map['rain'] = rain?.toJson();
-    }
-    if (clouds != null) {
-      map['clouds'] = clouds?.toJson();
-    }
-    map['dt'] = dt;
-    if (sys != null) {
-      map['sys'] = sys?.toJson();
-    }
-    map['timezone'] = timezone;
-    map['id'] = id;
-    map['name'] = name;
-    map['cod'] = cod;
-    return map;
-  }
 }
 
 /// type : 2
@@ -199,9 +167,9 @@ class Wind {
   });
 
   Wind.fromJson(dynamic json) {
-    speed = double.parse(json['speed']);
+    speed = json['speed'];
     deg = json['deg'];
-    gust = double.parse(json['gust']);
+    gust = json['gust'];
   }
 
   double? speed;
@@ -239,10 +207,10 @@ class Main {
   });
 
   Main.fromJson(dynamic json) {
-    temp = json['temp'];
-    feelsLike = json['feels_like'];
-    tempMin = json['temp_min'];
-    tempMax = json['temp_max'];
+    temp = json['temp'].toDouble();
+    feelsLike = json['feels_like'].toDouble();
+    tempMin = json['temp_min'].toDouble();
+    tempMax = json['temp_max'].toDouble();
     pressure = json['pressure'];
     humidity = json['humidity'];
     seaLevel = json['sea_level'];
@@ -317,8 +285,8 @@ class Coord {
   });
 
   Coord.fromJson(dynamic json) {
-    lon = json['lon'];
-    lat = json['lat'];
+    lon = json['lon'].toDouble();
+    lat = json['lat'].toDouble();
   }
 
   double? lon;

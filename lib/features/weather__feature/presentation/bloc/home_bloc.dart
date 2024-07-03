@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:weather_app/core/resources/data_state.dart';
 import 'package:weather_app/features/weather__feature/domain/use_cases/get_current_weather_usecase.dart';
-import 'package:weather_app/features/weather__feature/presentaion/bloc/current_weather_status.dart';
+import 'package:weather_app/features/weather__feature/presentation/bloc/current_weather_status.dart';
 
 part 'home_event.dart';
 
@@ -20,11 +20,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       DataState dataState = await getCurrentWeatherUseCase(event.cityName);
 
-      if(dataState == DataSuccess){
+      if(dataState is DataSuccess){
         emit(state.copyWith(newCurrentWeatherStatus: CurrentWeatherCompleted(dataState.data)));
       }
 
-      if(dataState == DataFailed){
+      if(dataState is DataFailed){
         emit(state.copyWith(newCurrentWeatherStatus: CurrentWeatherError(dataState.error!)));
 
       }

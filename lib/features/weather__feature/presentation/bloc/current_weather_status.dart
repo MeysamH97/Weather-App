@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:weather_app/features/weather__feature/domain/entities/current_city_entity.dart';
 
 @immutable
-abstract class CurrentWeatherStatus {}
+abstract class CurrentWeatherStatus{
 
-class CurrentWeatherLoading extends CurrentWeatherStatus {}
+}
+
+class CurrentWeatherLoading extends CurrentWeatherStatus {
+
+}
 
 class CurrentWeatherCompleted extends CurrentWeatherStatus {
 
