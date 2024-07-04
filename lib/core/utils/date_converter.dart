@@ -6,7 +6,6 @@ class DateConverter {
     final formatter = DateFormat.MMMd();
     var result = formatter
         .format(DateTime.fromMillisecondsSinceEpoch(dt * 1000, isUtc: true));
-
     return result;
   }
 
@@ -17,6 +16,27 @@ class DateConverter {
         (dt * 1000) + timeZone * 1000,
         isUtc: true));
   }
+}
+
+
+List<int> getUniqueDailyTimestamps(List<int> timestamps) {
+  final formatter = DateFormat('yyyy-MM-dd'); // فرمت تاریخ برای دسته‌بندی
+  final uniqueDates = <String, int>{}; // نگهداری اولین تایم‌استمپ از هر روز
+
+  for (var ts in timestamps) {
+    final dateStr = formatter.format(DateTime.fromMillisecondsSinceEpoch(ts * 1000, isUtc: true));
+    if (!uniqueDates.containsKey(dateStr)) {
+      uniqueDates[dateStr] = ts; // نگهداری اولین تایم‌استمپ از هر روز
+    }
+  }
+
+  return uniqueDates.values.toList(); // بازگشت لیست تایم‌استمپ‌های فیلتر شده
+}
+
+String changeDtToDateTime(int dt) {
+  final formatter = DateFormat.MMMd();
+  var result = formatter.format(DateTime.fromMillisecondsSinceEpoch(dt * 1000, isUtc: true));
+  return result;
 }
 
 List m = [

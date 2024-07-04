@@ -3,9 +3,11 @@ import 'package:weather_app/core/params/forecast_params.dart';
 import 'package:weather_app/core/resources/data_state.dart';
 import 'package:weather_app/features/weather__feature/data/data_source/remote/api_provider.dart';
 import 'package:weather_app/features/weather__feature/data/models/current_city_model.dart';
-import 'package:weather_app/features/weather__feature/data/models/forcast_days_model.dart';
+import 'package:weather_app/features/weather__feature/data/models/forecast_days_model.dart';
+import 'package:weather_app/features/weather__feature/data/models/suggest_city_model.dart';
 import 'package:weather_app/features/weather__feature/domain/entities/current_city_entity.dart';
 import 'package:weather_app/features/weather__feature/domain/entities/forecast_days_entity.dart';
+import 'package:weather_app/features/weather__feature/domain/entities/suggest_city_entity.dart';
 import 'package:weather_app/features/weather__feature/domain/repository/weather_repository.dart';
 
 class WeatherRepositoryImpl extends WeatherRepository{
@@ -56,6 +58,17 @@ class WeatherRepositoryImpl extends WeatherRepository{
 
       return DataFailed('Please check your connection ...');
     }
+  }
+
+  @override
+  Future<List<Data>> fetchSuggestData(cityName) async {
+
+    Response response = await apiProvider.sendRequestCitySuggestion(cityName);
+
+    SuggestCityEntity suggestCityEntity = SuggestCityModel.fromJson(response.data);
+
+    return suggestCityEntity.data!;
+
   }
 
 }

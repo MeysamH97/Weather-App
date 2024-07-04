@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:weather_app/features/weather__feature/data/models/forcast_days_model.dart';
+import 'package:weather_app/features/weather__feature/data/models/forecast_days_model.dart';
 
 class ForecastDaysEntity extends Equatable {
   final String? cod;

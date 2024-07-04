@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:weather_app/core/params/forecast_params.dart';
 import 'package:weather_app/core/presentation/widgets/app_background.dart';
 import 'package:weather_app/core/presentation/widgets/loading_widget.dart';
 import 'package:weather_app/core/utils/constants.dart';
-import 'package:weather_app/features/weather__feature/data/models/forcast_days_model.dart';
+import 'package:weather_app/features/weather__feature/data/models/forecast_days_model.dart';
+import 'package:weather_app/features/weather__feature/data/models/suggest_city_model.dart';
 import 'package:weather_app/features/weather__feature/domain/entities/current_city_entity.dart';
 import 'package:weather_app/features/weather__feature/domain/entities/forecast_days_entity.dart';
+import 'package:weather_app/features/weather__feature/domain/use_cases/get_suggestion_city_usecase.dart';
 import 'package:weather_app/features/weather__feature/presentation/bloc/current_weather_status.dart';
 import 'package:weather_app/features/weather__feature/presentation/bloc/forecast_days_status.dart';
 import 'package:weather_app/features/weather__feature/presentation/bloc/home_bloc.dart';
 import 'package:weather_app/features/weather__feature/presentation/widgets/day_weather_view.dart';
+import 'package:weather_app/locator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -58,7 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocProvider.of<HomeBloc>(context)
               .add(LoadForecastDaysEvent(forecastParams));
 
+          GetSuggestionCityUseCase getSuggestionCityUseCase =
+              GetSuggestionCityUseCase(locator());
+
           final ScrollController scrollController = ScrollController();
+          final TextEditingController textEditingController =
+              TextEditingController();
           final PageController pageController = PageController();
 
           return ListView(
@@ -68,45 +77,70 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   /// search section
-                  Container(
-                    width: Constants.width(context),
-                    padding: const EdgeInsets.only(top: 20),
+                  SizedBox(
+                    height: Constants.height(context) * 0.02,
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.1),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.search_rounded,
-                              color: Colors.white.withOpacity(0.5),
-                              size: 40,
-                            ),
-                          ),
-                        ),
+                        /// search box
                         Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white.withOpacity(0.1),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
+                          child: TypeAheadField(
+                            builder: (context, controller, focusNode) {
+                              return TextField(
+                                focusNode: focusNode,
+                              onSubmitted: (String prefix) {
+                                  textEditingController.text = prefix;
+                                  BlocProvider.of<HomeBloc>(context)
+                                      .add(LoadCurrentWeatherEvent(prefix));
+                                },
+                                controller: textEditingController,
+                                style:
+                                    DefaultTextStyle.of(context).style.copyWith(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                decoration: const InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                  hintText: "Enter City Name ...",
+                                  hintStyle: TextStyle(color: Colors.white),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.white,),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                  ),
+                                ),
+                              );
+                            },
+                            controller: textEditingController,
+                            suggestionsCallback: (String prefix) {
+                              if (prefix.isNotEmpty) {
+                                return getSuggestionCityUseCase(prefix);
+                              }
+                              return null;
+                            },
+                            itemBuilder: (context, Data model) {
+                              return ListTile(
+                                leading: const Icon(Icons.location_on),
+                                title: Text(model.name!),
+                                subtitle:
+                                    Text("${model.region!}, ${model.country!}"),
+                              );
+                            },
+                            onSelected: (Data model) {
+                            textEditingController.text = model.name!;
+                            BlocProvider.of<HomeBloc>(context)
+                                .add(LoadCurrentWeatherEvent(model.name!));
+                          },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.star_outlined,
-                              color: Colors.amber,
-                              size: 40,
-                            ),
-                          ),
-                        ),
+                        // Other widgets (e.g., loading indicators, error messages) can be added here.
                       ],
                     ),
                   ),
@@ -294,32 +328,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                       as ForecastDaysCompleted;
                               final ForecastDaysEntity forecastDaysEntity =
                                   forecast7daysStatus.forecast7daysEntity;
-                              final List<Daily> mainDaily =
+                              final List<Daily> days =
                                   forecastDaysEntity.daily!;
 
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: mainDaily.length,
-                                itemBuilder: (
-                                  BuildContext context,
-                                  int index,
-                                ) {
-                                  print("***** $index");
-                                  print(mainDaily[index].dt);
-                                  return DaysWeatherView(
-                                    daily: mainDaily[index],
-                                  );
-                                },
+                              return DaysWeatherView(
+                                days: days,
                               );
                             }
 
                             /// show Error State for Fw
-                            if (state.forecastdaysStatus
-                                is ForecastDaysError) {
+                            if (state.forecastdaysStatus is ForecastDaysError) {
                               final ForecastDaysError forecast7DaysError =
-                                  state.forecastdaysStatus
-                                      as ForecastDaysError;
+                                  state.forecastdaysStatus as ForecastDaysError;
                               return Center(
                                 child: Text(
                                   forecast7DaysError.message,
