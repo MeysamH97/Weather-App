@@ -17,36 +17,21 @@ import 'package:weather_app/features/weather__feature/domain/entities/current_ci
 
 class CurrentCityModel extends CurrentCityEntity {
    CurrentCityModel({
-    Coord? coord,
-    List<Weather>? weather,
-    String? base,
-    Main? main,
-    int? visibility,
-    Wind? wind,
-    Rain? rain,
-    Clouds? clouds,
-    int? dt,
-    Sys? sys,
-    int? timezone,
-    int? id,
-    String? name,
-    int? cod,
-  }) : super(
-          coord: coord,
-          weather: weather,
-          base: base,
-          main: main,
-          visibility: visibility,
-          wind: wind,
-          rain: rain,
-          clouds: clouds,
-          dt: dt,
-          sys: sys,
-          timezone: timezone,
-          id: id,
-          name: name,
-          cod: cod,
-        );
+    super.coord,
+    super.weather,
+    super.base,
+    super.main,
+    super.visibility,
+    super.wind,
+    super.rain,
+    super.clouds,
+    super.dt,
+    super.sys,
+    super.timezone,
+    super.id,
+    super.name,
+    super.cod,
+  });
 
   factory CurrentCityModel.fromJson(dynamic json) {
     List<Weather> weather = [];

@@ -9,3 +9,10 @@ class LoadCurrentWeatherEvent extends HomeEvent{
 
   LoadCurrentWeatherEvent(this.cityName);
 }
+
+class LoadForecastDaysEvent extends HomeEvent{
+
+  final ForecastParams params;
+
+  LoadForecastDaysEvent(this.params);
+}
