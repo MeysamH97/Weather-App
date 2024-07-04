@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         if (state.currentWeatherStatus is CurrentWeatherCompleted) {
           final CurrentWeatherCompleted currentWeatherCompleted =
-              state.currentWeatherStatus as CurrentWeatherCompleted;
+          state.currentWeatherStatus as CurrentWeatherCompleted;
           final CurrentCityEntity currentCityEntity =
               currentWeatherCompleted.currentCityEntity;
 
@@ -63,11 +63,11 @@ class _HomeScreenState extends State<HomeScreen> {
               .add(LoadForecastDaysEvent(forecastParams));
 
           GetSuggestionCityUseCase getSuggestionCityUseCase =
-              GetSuggestionCityUseCase(locator());
+          GetSuggestionCityUseCase(locator());
 
           final ScrollController scrollController = ScrollController();
           final TextEditingController textEditingController =
-              TextEditingController();
+          TextEditingController();
           final PageController pageController = PageController();
 
           return ListView(
@@ -76,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Column(
                 children: [
+
                   /// search section
                   SizedBox(
                     height: Constants.height(context) * 0.02,
@@ -83,34 +84,41 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.1),
+                        horizontal: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.1),
                     child: Row(
                       children: [
+
                         /// search box
                         Expanded(
                           child: TypeAheadField(
                             builder: (context, controller, focusNode) {
                               return TextField(
                                 focusNode: focusNode,
-                              onSubmitted: (String prefix) {
+                                onSubmitted: (String prefix) {
                                   textEditingController.text = prefix;
                                   BlocProvider.of<HomeBloc>(context)
                                       .add(LoadCurrentWeatherEvent(prefix));
                                 },
                                 controller: textEditingController,
                                 style:
-                                    DefaultTextStyle.of(context).style.copyWith(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        ),
+                                DefaultTextStyle
+                                    .of(context)
+                                    .style
+                                    .copyWith(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
                                 decoration: const InputDecoration(
                                   contentPadding:
-                                      EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                  EdgeInsets.fromLTRB(20, 0, 0, 0),
                                   hintText: "Enter City Name ...",
                                   hintStyle: TextStyle(color: Colors.white),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: Colors.white,),
+                                    BorderSide(color: Colors.white,),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.white),
@@ -130,14 +138,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 leading: const Icon(Icons.location_on),
                                 title: Text(model.name!),
                                 subtitle:
-                                    Text("${model.region!}, ${model.country!}"),
+                                Text("${model.region!}, ${model.country!}"),
                               );
                             },
                             onSelected: (Data model) {
-                            textEditingController.text = model.name!;
-                            BlocProvider.of<HomeBloc>(context)
-                                .add(LoadCurrentWeatherEvent(model.name!));
-                          },
+                              textEditingController.text = model.name!;
+                              BlocProvider.of<HomeBloc>(context)
+                                  .add(LoadCurrentWeatherEvent(model.name!));
+                            },
                           ),
                         ),
                         // Other widgets (e.g., loading indicators, error messages) can be added here.
@@ -148,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ///current city show data section
                   Container(
                     padding:
-                        EdgeInsets.only(top: Constants.height(context) * 0.02),
+                    EdgeInsets.only(top: Constants.height(context) * 0.02),
                     width: Constants.width(context),
                     height: Constants.height(context) * 0.53,
                     child: PageView.builder(
@@ -188,7 +196,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: Text(
-                                  ' ${currentCityEntity.main!.temp!.round().toString()}\u00B0',
+                                  ' ${currentCityEntity.main!
+                                      .temp!
+                                      .round()
+                                      .toString()}\u00B0',
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 72,
@@ -206,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           'Min',
                                           style: TextStyle(
                                             color:
-                                                Colors.white.withOpacity(0.5),
+                                            Colors.white.withOpacity(0.5),
                                             fontSize: 18,
                                           ),
                                         ),
@@ -214,10 +225,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                           height: 5,
                                         ),
                                         Text(
-                                          '${currentCityEntity.main!.tempMin!.round().toString()}\u00B0',
+                                          '${currentCityEntity.main!.tempMin!
+                                              .round().toString()}\u00B0',
                                           style: TextStyle(
                                             color:
-                                                Colors.white.withOpacity(0.75),
+                                            Colors.white.withOpacity(0.75),
                                             fontSize: 16,
                                           ),
                                         ),
@@ -239,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           'Max',
                                           style: TextStyle(
                                             color:
-                                                Colors.white.withOpacity(0.5),
+                                            Colors.white.withOpacity(0.5),
                                             fontSize: 18,
                                           ),
                                         ),
@@ -247,10 +259,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                           height: 5,
                                         ),
                                         Text(
-                                          '${currentCityEntity.main!.tempMax!.round().toString()}\u00B0',
+                                          '${currentCityEntity.main!.tempMax!
+                                              .round().toString()}\u00B0',
                                           style: TextStyle(
                                             color:
-                                                Colors.white.withOpacity(0.75),
+                                            Colors.white.withOpacity(0.75),
                                             fontSize: 16,
                                           ),
                                         ),
@@ -284,10 +297,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             spacing: 5,
                             dotColor: Colors.white.withOpacity(0.5),
                             activeDotColor: Colors.white),
-                        onDotClicked: (index) => pageController.animateToPage(
-                            index,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.bounceInOut),
+                        onDotClicked: (index) =>
+                            pageController.animateToPage(
+                                index,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.bounceInOut),
                       ),
                     ),
                   ),
@@ -313,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (BuildContext context, state) {
                             /// show Loading State for Fw
                             if (state.forecastdaysStatus
-                                is ForecastDaysLoading) {
+                            is ForecastDaysLoading) {
                               return const Center(
                                 child: LoadingWidget(),
                               );
@@ -321,15 +335,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             /// show Completed State for Fw
                             if (state.forecastdaysStatus
-                                is ForecastDaysCompleted) {
+                            is ForecastDaysCompleted) {
                               /// casting
                               final ForecastDaysCompleted forecast7daysStatus =
-                                  state.forecastdaysStatus
-                                      as ForecastDaysCompleted;
+                              state.forecastdaysStatus
+                              as ForecastDaysCompleted;
                               final ForecastDaysEntity forecastDaysEntity =
                                   forecast7daysStatus.forecast7daysEntity;
                               final List<Daily> days =
-                                  forecastDaysEntity.daily!;
+                              forecastDaysEntity.daily!;
 
                               return DaysWeatherView(
                                 days: days,
@@ -339,7 +353,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             /// show Error State for Fw
                             if (state.forecastdaysStatus is ForecastDaysError) {
                               final ForecastDaysError forecast7DaysError =
-                                  state.forecastdaysStatus as ForecastDaysError;
+                              state.forecastdaysStatus as ForecastDaysError;
                               return Center(
                                 child: Text(
                                   forecast7DaysError.message,
@@ -377,18 +391,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
         if (state.currentWeatherStatus is CurrentWeatherError) {
           final CurrentWeatherError currentWeatherError =
-              state.currentWeatherStatus as CurrentWeatherError;
+          state.currentWeatherStatus as CurrentWeatherError;
           final String error = currentWeatherError.message;
 
           return Center(
               child: Text(
-            error,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ));
+                error,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ));
         }
 
         return const SizedBox();
