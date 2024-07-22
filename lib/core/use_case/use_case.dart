@@ -3,6 +3,7 @@ abstract class UseCase <T, P>{
   Future<T> call (P param);
 
 }
+class NoParams{}
 
 /// این کلاس برای این ساخته شدده که  کل کلاس های یوز کیس های ما که callable کلاس هستند از این کلاس والد ارث بری کنند و دیگه برای هرر کدوم به صوررت مجزا متد call ننویسیم
 ///
